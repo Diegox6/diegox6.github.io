@@ -1,0 +1,19 @@
+body {
+	background-color: #ddd;
+	text-align: center;
+	overflow: "hidden";
+	font-family: "Consolas";
+	margin: 50px;
+}
+
+h1 {
+	color: #000;
+}
+
+h3 {
+	color: #333;
+}
+
+a {
+	font-weight: bold;
+}

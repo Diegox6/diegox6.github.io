@@ -1,13 +1,10 @@
 body {
 	background-color: #ddd;
 	text-align: center;
-	overflow: "hidden";
+	overflow: hidden;
 	font-family: "Consolas";
 	margin: 50px;
-}
-
-h1 {
-	color: #000;
+	font-weight: bold;
 }
 
 h3 {

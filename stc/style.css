@@ -1,13 +1,13 @@
 body {
 	background-color: #ddd;
-	text-align: center;
 	overflow: hidden;
+	text-align: center;
 	font-family: "Consolas";
-	margin: 50px;
+	font-weight: bold;
 }
 
-h1 {
-	color: #000;
+p {
+	color: #333;
 }
 
 #frame {

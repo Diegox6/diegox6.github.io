@@ -1,0 +1,63 @@
+<html>
+
+	<head>
+		<title>MC Structure Analyzer</title>
+		<script src="script.js"></script>
+		
+		<style>
+			* {
+				box-sizing: border-box;
+			}
+			
+			body {
+				font-family: Consolas;
+			}
+		
+			#header {
+				padding: 20px;
+			}
+			
+			#data {
+				float: left;
+				padding: 10px;
+				
+				display: none; 
+			}
+			
+			#properties {
+				float: left;
+				padding: 10px;
+				
+				display: none; 
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="header">
+			<h1>Minecraft Structure Analyzer</h1>
+			
+			<p>Welcome! In this page you can "analyze" your minecraft structures so you can know things like exactly how many blocks there are of each kind.</p>
+			<p>When you save a structure in your minecraft world with the structure block it's saved in your world folder under generated/minecraft/structures with the format ".nbt".<br>Structure files are gzip compressed, which means that just reading the .nbt yields basically non-sense.<br>Right now, this page doesn't uncompress your file, so you'll have to do it.<br>Just use WinRAR or your program of choice to open the .nbt file and extract the only file it has, which shouldn't have a format. <b>This is the file you should upload</b>.</p>
+			<p>As of right now, this page is barely functional. I made it partly for programming self-teaching, so don't expect much. Rather, expect bugs.<br>I'm planning on adding more stuff, but right now the page will tell you about your structure size and how many blocks you need to build it.</p>
+			<p>If you want to know more about how structures are saved, I've included a hex dump for all of us nerds to look at.<br><a href="https://wiki.vg/NBT" target="_blank">Here</a> is a good wiki page about the NBT format and <a href="https://minecraft.gamepedia.com/Structure_block_file_format" target="_blank">here</a> is another specifically about structure files.</p>
+			<p>Source code available at <a href="https://github.com/Diegox6/MC-Structure-Analyzer" target="_blank">Github</a> - <a href="..">Back to my main page</a></p>
+			
+			<label><b>Upload your .nbt file: </b><input type="file" id="filein"></label>
+			<button id="analyzeb" onclick="analyze()">Analyze!</button>
+		</div>
+		
+		<div id="data">
+			<h2>Hex Dump (nerd stuff)</h2>
+			<p id="dataHolder" style="font-size: 12px;"></p>
+		</div>
+		
+		<div id="properties">
+			<h2>Your structure's properties</h2>
+			<p><b>Size: </b><span id="sizeHolder"></span></p>
+			<p><b>Blocks:</b></p>
+			<ul id="blocksHolder"></ul>
+		</div>
+	</body>
+
+</html>

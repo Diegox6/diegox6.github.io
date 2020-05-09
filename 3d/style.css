@@ -1,0 +1,27 @@
+body {
+	background-color: #ddd;
+	overflow: hidden;
+	text-align: center;
+	font-family: "Consolas";
+	font-weight: bold;
+}
+
+p {
+	color: #333;
+}
+
+#frame {
+	padding-left: 0;
+	padding-right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+
+	border-style: solid;
+	border-color: #333;
+}
+
+#ruler {
+	visibility: hidden;
+	white-space: nowrap;
+}

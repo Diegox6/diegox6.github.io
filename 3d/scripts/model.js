@@ -2,6 +2,8 @@ var vertices = [];
 var triangles = [];
 
 function loadModel(file) {
+	triangles = [];
+	vertices = [];
 	readFile(file).then(function(result) {
 		let lines = result.split("\n");
 		for (let i = 0; i < lines.length; i++) {

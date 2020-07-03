@@ -1,0 +1,53 @@
+<html>
+
+	<head>
+		<title>Minecraft Cutscene Generator</title>
+
+		<script type="text/javascript" src="jszip.js"></script>
+		<script type="text/javascript" src="filesaver.js"></script>
+		<script type="text/javascript" src="script.js"></script>
+
+		<style>
+			body {
+				font: 16px consolas;
+				padding: 20px;
+			}
+
+			.field {
+				width: 50px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>Minecraft Cutscene Generator</h1>
+		<p>In this page you can create your own cutscenes for minecraft in the form of a data pack.</p>
+		<p>There are a lot of features to be added to this tool yet. Right now, only one cutscene can exist in each minecraft world.<br>You'll have to be on spectator mode or flying in creative mode for the cutscene to work correctly.</p>
+		<p>To install the cutscene, press the download button and save the .zip file in the "datapacks" of your world's folder (or follow <a href="https://minecraft.gamepedia.com/Tutorials/Installing_a_data_pack" target="_blank">this guide</a>).</p>
+		<p>Source code available at <a href="https://github.com/Diegox6/mc_cutscene_generator" target="_blank">Github</a> - <a href="..">Back to my main page</a></p>
+
+		<button onclick="generateFile()">Download cutscene datapack</button>
+
+		<br><br>
+
+		<label>Start From (x,y,z,rx,ry):</label>
+		<input type="number" class="field" value="0" id="startx" />
+		<input type="number" class="field" value="0" id="starty" />
+		<input type="number" class="field" value="0" id="startz" />
+		<input type="number" class="field" value="0" id="startrx" />
+		<input type="number" class="field" value="0" id="startry" />
+
+		<script>
+			document.getElementById("startx").addEventListener("input", updateStartCoords);
+			document.getElementById("starty").addEventListener("input", updateStartCoords);
+			document.getElementById("startz").addEventListener("input", updateStartCoords);
+			document.getElementById("startrx").addEventListener("input", updateStartCoords);
+			document.getElementById("startry").addEventListener("input", updateStartCoords);
+		</script>
+
+		<br><br>
+
+		<button onclick="newSection()" id="morebutton">Add new section</button>
+	</body>
+
+</html>

@@ -183,7 +183,7 @@ function updateFromAbsoluteRotations(e) {
 }
 
 function getFieldValue(id) {
-	let val = parseInt(document.getElementById(id).value);
+	let val = parseFloat(document.getElementById(id).value);
 	if (isNaN(val)) return 0;
 	return val;
 }
@@ -192,7 +192,6 @@ function setFieldValue(id, val) {
 	document.getElementById(id).value = val;
 }
 
-let sections = [];
 let current = 0;
 let startCoords = [];
 
@@ -203,26 +202,29 @@ function generateFile() {
 
 	let zip = new JSZip();
 
+	let id = getFieldValue("cutsceneid");
+
 	// mcmeta file
-	zip.file("pack.mcmeta", "{\"pack\":{\"pack_format\":5,\"description\":\"oh wow\"}}");
+	zip.file("pack.mcmeta", "{\"pack\":{\"pack_format\":5,\"description\":\"Cutscene datapack\"}}");
 
 	let data = zip.folder("data");
 
 	// tags for tick and load functions
 	let tagFolder = data.folder("minecraft").folder("tags").folder("functions");
-	tagFolder.file("tick.json", "{\"values\":[\"cutscene:tick\"]}");
-	tagFolder.file("load.json", "{\"values\":[\"cutscene:load\"]}")
+	tagFolder.file("tick.json", "{\"values\":[\"cutscene-" + id + ":tick\"]}");
+	tagFolder.file("load.json", "{\"values\":[\"cutscene-" + id + ":load\"]}")
 
 	// functions
-	let functionsFolder = data.folder("cutscene").folder("functions");
+	let functionsFolder = data.folder("cutscene-" + id).folder("functions");
 
-	functionsFolder.file("tick.mcfunction", generateSections());
-	functionsFolder.file("start.mcfunction", `scoreboard players set @s cutscenetimer 0 \ntp @s ${startCoords[0]} ${startCoords[1]} ${startCoords[2]} ${startCoords[3]} ${startCoords[4]}`);
-	functionsFolder.file("load.mcfunction", `scoreboard objectives add cutscenetimer dummy`);
+	functionsFolder.file("tick.mcfunction", generateSections(id));
+	functionsFolder.file("start.mcfunction", `scoreboard players set @s cutscenetimer-${id} 0 \ntp @s ${startCoords[0]} ${startCoords[1]} ${startCoords[2]} ${startCoords[3]} ${startCoords[4]}`);
+	functionsFolder.file("load.mcfunction", `scoreboard objectives add cutscenetimer-${id} dummy`);
+	functionsFolder.file("load.mcfunction", `scoreboard objectives add cutscenetimer-${id} dummy`);
 
 	zip.generateAsync({type:"blob"})
 		.then(function(content) {
-			saveAs(content, "cutscene.zip");
+			saveAs(content, "cutscene-" + id + ".zip");
 	});
 }
 
@@ -234,16 +236,19 @@ function section(dx, dy, dz, drx, dry, t) {
 	this.drx = drx;
 	this.dry = dry;
 	this.t = t;
+	console.log(t);
 
-	this.generateCommand = function(start) {
-		return `execute as @a[scores={cutscenetimer=${start+1}..${start+t}}] at @s run tp @s ~${dx/t} ~${dy/t} ~${dz/t} ~${drx/t} ~${dry/t}`;
+	this.generateCommand = function(start, id) {
+		return `execute as @a[scores={cutscenetimer-${id}=${start+1}..${start+t}}] at @s run tp @s ~${dx/t} ~${dy/t} ~${dz/t} ~${drx/t} ~${dry/t}`;
 	}
 
 }
 
-function generateSections() {
-	let str = "scoreboard players add @a[scores={cutscenetimer=0..}] cutscenetimer 1\n";
+function generateSections(id) {
+	let str = "scoreboard players add @a[scores={cutscenetimer-" + id + "=0..}] cutscenetimer-" + id + " 1\n";
 	let timer = 0;
+
+	let sections = [];
 
 	for (let i = 0; i < current; i++) {
 		let dx = getFieldValue("relcoord-" + i + "-0");
@@ -256,10 +261,10 @@ function generateSections() {
 
 		sections.push(new section(dx, dy, dz, drx, dry, t));
 
-		str += sections[i].generateCommand(timer) + "\n";
+		str += sections[i].generateCommand(timer, id) + "\n";
 		timer += t;
 	}
-	str += `scoreboard players set @a[scores={cutscenetimer=${timer}..}] cutscenetimer -1`
+	str += `scoreboard players set @a[scores={cutscenetimer-${id}=${timer}..}] cutscenetimer-${id} -1`
 
 	return str;
 }
